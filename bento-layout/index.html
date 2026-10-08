@@ -1,5 +1,3 @@
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +29,9 @@ Index · HTML
  
     .tile.title { background: #d9bbbb; font-size: 2.5rem; }
     .tile.banner { background: #d9d9d9; }
+    .round-tl    { border-top-left-radius: 48px; }
+    .round-br    { border-bottom-right-radius: 48px; }
+    .round-diag  { border-top-right-radius: 48px; border-bottom-left-radius: 48px; }
   </style>
 </head>
 <body>
@@ -39,7 +40,7 @@ Index · HTML
  
     <div class="row g-3 mb-3">
       <div class="col-12 col-md-4">
-        <div class="tile h-100">IMAGE 1</div>
+        <div class="tile round-tl h-100">IMAGE 1</div>
       </div>
       <div class="col-12 col-md-3">
         <div class="tile h-100">IMAGE 1</div>
@@ -47,7 +48,7 @@ Index · HTML
       <div class="col-12 col-md-5">
         <div class="d-flex flex-column gap-3 h-100">
           <div class="tile flex-fill" style="min-height: 64px;">Text Placeholder</div>
-          <div class="tile flex-fill" style="min-height: 64px;">About</div>
+          <div class="tile round-br flex-fill" style="min-height: 64px;">About</div>
         </div>
       </div>
     </div>
@@ -60,10 +61,10 @@ Index · HTML
         <div class="tile h-100">IMAGE 1</div>
       </div>
       <div class="col-12 col-md-5">
-        <div class="tile title h-100">TITLE</div>
+        <div class="tile title round-diag h-100">TITLE</div>
       </div>
       <div class="col-12 col-md-3">
-        <div class="tile h-100">IMAGE 1</div>
+        <div class="tile round-br h-100">IMAGE 1</div>
       </div>
     </div>
  
