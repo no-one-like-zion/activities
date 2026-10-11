@@ -3,78 +3,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bento Layout</title>
-
+  <title>Art Commission Sheet</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="media/css/style.css" rel="stylesheet">
 </head>
 <body>
 
-  <div class="container board">
+  <main class="container py-5">
+    <div class="row g-4">
 
-    <!-- ROW 1: big image | image | two text boxes -->
-    <div class="row g-3 mb-3">
+      <!-- Title -->
+      <div class="col-12 col-md-7">
+        <section class="tile tile-pink leaf-a h-100 p-4 p-md-5 d-flex flex-column justify-content-center">
+          <span class="badge tag rounded-pill align-self-start mb-3">Commissions</span>
+          <h1 class="display-5 fw-bold mb-3">Art Commission Sheet</h1>
+          <p class="fs-5 mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </section>
+      </div>
 
+      <!-- About -->
+      <div class="col-12 col-md-5">
+        <section class="tile tile-mint h-100 p-4 p-md-5">
+          <h2 class="fw-bold mb-3">About</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p class="mb-0">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        </section>
+      </div>
+
+      <!-- Rates -->
+      <div class="col-12 col-md-8">
+        <section class="tile tile-butter h-100 p-4 p-md-5">
+          <h2 class="fw-bold mb-3">Rates</h2>
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge tag rounded-pill px-3 py-2">Sketched</span>
+            <span class="badge tag rounded-pill px-3 py-2">Coloured</span>
+            <span class="badge tag rounded-pill px-3 py-2">Rendered</span>
+          </div>
+          <img src="media/images/rates.svg" class="img-fluid w-100 rounded-4" alt="Commission rates for sketched, coloured, and rendered pieces">
+        </section>
+      </div>
+
+      <!-- Chibified Icons -->
       <div class="col-12 col-md-4">
-        <!-- Image tile: two stacked images, the second one appears on hover -->
-        <div class="tile hover-swap round-tl position-relative overflow-hidden h-100">
-          <img src="media/images/placeholder.svg" class="img-base position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="Placeholder image 1">
-          <img src="media/images/placeholder-hover.svg" class="img-hover position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="">
-        </div>
+        <section class="tile tile-peach leaf-b h-100 p-4">
+          <img src="media/images/chibified-icons.svg" class="img-fluid w-100 rounded-4 mb-3" alt="Chibified icons example sheet">
+          <h2 class="h3 fw-bold mb-2">Chibified Icons</h2>
+          <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+        </section>
       </div>
 
-      <div class="col-12 col-md-3">
-        <div class="tile hover-swap position-relative overflow-hidden h-100">
-          <img src="media/images/placeholder.svg" class="img-base position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="Placeholder image 2">
-          <img src="media/images/placeholder-hover.svg" class="img-hover position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="">
-        </div>
+      <!-- Additional Characters -->
+      <div class="col-12 col-md-5">
+        <section class="tile tile-lavender leaf-a h-100 p-4">
+          <img src="media/images/additional-characters.svg" class="img-fluid w-100 rounded-4 mb-3" alt="Additional characters example sheet">
+          <h2 class="h3 fw-bold mb-2">Additional Characters</h2>
+          <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+        </section>
+      </div>
+
+      <!-- FAQs -->
+      <div class="col-12 col-md-7">
+        <section class="tile tile-pink h-100 p-4 p-md-5">
+          <h2 class="fw-bold mb-4">FAQs</h2>
+
+          <p class="faq-question mb-1">Lorem ipsum dolor sit amet?</p>
+          <p class="mb-4">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+          <p class="faq-question mb-1">Ut enim ad minim veniam?</p>
+          <p class="mb-4">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+          <p class="faq-question mb-1">Duis aute irure dolor?</p>
+          <p class="mb-0">In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        </section>
+      </div>
+
+      <!-- How to Order -->
+      <div class="col-12 col-md-4">
+        <section class="tile tile-mint leaf-b h-100 p-4">
+          <h2 class="h3 fw-bold mb-3">How to Order</h2>
+          <ol class="ps-3 mb-0">
+            <li class="mb-2">Lorem ipsum dolor sit amet.</li>
+            <li class="mb-2">Consectetur adipiscing elit.</li>
+            <li class="mb-2">Sed do eiusmod tempor.</li>
+            <li>Ut labore et dolore magna.</li>
+          </ol>
+        </section>
+      </div>
+
+      <!-- Terms of Service -->
+      <div class="col-12 col-md-4">
+        <section class="tile tile-butter h-100 p-4">
+          <h2 class="h3 fw-bold mb-3">Terms of Service</h2>
+          <ul class="ps-3 mb-0">
+            <li class="mb-2">Lorem ipsum dolor sit amet.</li>
+            <li class="mb-2">Consectetur adipiscing elit.</li>
+            <li class="mb-2">Sed do eiusmod tempor.</li>
+            <li>Ut labore et dolore magna.</li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Payment -->
+      <div class="col-12 col-md-4">
+        <section class="tile tile-lavender leaf-a h-100 p-4">
+          <h2 class="h3 fw-bold mb-3">Payment</h2>
+          <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </section>
       </div>
 
       <div class="col-12 col-md-5">
-        <div class="d-flex flex-column gap-3 h-100">
-          <div class="tile flex-fill" style="min-height: 64px;">Text Placeholder</div>
-          <div class="tile round-br flex-fill" style="min-height: 64px;">About</div>
-        </div>
+        <section class="tile tile-peach leaf-a h-100 p-4 p-md-5">
+          <h2 class="fw-bold mb-3">Turnaround</h2>
+          <span class="badge tag rounded-pill align-self-start px-3 py-2 mb-3">Lorem ipsum</span>
+          <p class="mb-0">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </section>
+      </div>
+
+      <!-- Contact -->
+      <div class="col-12 col-md-7">
+        <section class="tile tile-pink leaf-b h-100 p-4 p-md-5">
+          <h2 class="fw-bold mb-3">Contact</h2>
+          <p class="mb-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge tag rounded-pill px-3 py-2">Lorem</span>
+            <span class="badge tag rounded-pill px-3 py-2">Ipsum</span>
+            <span class="badge tag rounded-pill px-3 py-2">Dolor</span>
+          </div>
+        </section>
       </div>
 
     </div>
-
-    <!-- ROW 2: two small images | title | image -->
-    <div class="row g-3 mb-3">
-      <div class="col-6 col-md-2">
-        <div class="tile hover-swap position-relative overflow-hidden h-100">
-          <img src="media/images/placeholder.svg" class="img-base position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="Placeholder image 3">
-          <img src="media/images/placeholder-hover.svg" class="img-hover position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="">
-        </div>
-      </div>
-
-      <div class="col-6 col-md-2">
-        <div class="tile hover-swap position-relative overflow-hidden h-100">
-          <img src="media/images/placeholder.svg" class="img-base position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="Placeholder image 4">
-          <img src="media/images/placeholder-hover.svg" class="img-hover position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="">
-        </div>
-      </div>
-
-      <div class="col-12 col-md-5">
-        <div class="tile title round-diag h-100">TITLE</div>
-      </div>
-
-      <div class="col-12 col-md-3">
-        <div class="tile hover-swap round-br position-relative overflow-hidden h-100">
-          <img src="media/images/placeholder.svg" class="img-base position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="Placeholder image 5">
-          <img src="media/images/placeholder-hover.svg" class="img-hover position-absolute top-0 start-0 w-100 h-100 object-fit-cover" alt="">
-        </div>
-      </div>
-
-    </div>
-    <!-- ROW 3: banner (chopsticks and wasabi image goes here later nyehehe) -->
-    <div class="row g-3">
-      <div class="col-12">
-        <div class="tile banner"></div>
-      </div>
-    </div>
-
-  </div>
+  </main>
 
 </body>
 </html>
