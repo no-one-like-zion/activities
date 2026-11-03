@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chess Profiles View</title>
+  <title>Grandmasters Profiles</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
@@ -13,7 +13,7 @@
   <div class="container-fluid bg-danger position-fixed top-0 z-1 shadow">
     <div class="row">
       <div class="col">
-        <div class="text-center display-6 text-white py-3">Chess Profiles View</div>
+        <div class="text-center display-6 text-white py-3">Grandmasters Profiles</div>
       </div>
     </div>
   </div>
@@ -26,14 +26,14 @@
         </a>
       </div>
     </div>
-  </div>
+  </div> 
 
   <div class="container mt-3">
     <div class="row">
       <div class="col">
         <div class="card shadow rounded-5 p-5 text-center">
 
-          <div id="imageContainer" class="mx-auto rounded-circle" style="width: 300px; height: 300px;">
+          <div id="imageContainer" class="mx-auto rounded-circle bg-light overflow-hidden" style="width: 300px; height: 300px;">
             <img src="" style="width: 100%;" id="image">
           </div>
 
@@ -43,9 +43,15 @@
             </div>
           </div>
 
+          <div class="text-secondary" id="username"></div>
+
           <div>
-            <span class="rounded-5 px-4 py-1" id="extra"></span>
+            <span class="rounded-5 px-4 py-1 bg-warning" id="info"></span>
           </div>
+
+          <div class="my-4" id="details"></div>
+
+          <div id="stats"></div>
 
         </div>
       </div>
@@ -56,41 +62,64 @@
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
   <script>
-    function capitalizeFirstLetter(str) {
-      if (!str) return str;
-      return str.charAt(0).toUpperCase() + str.slice(1);
+    function getMode(mode) {
+      if (!mode) return "Not played";
+      return mode.last.rating + " (W " + mode.record.win + " / L " + mode.record.loss + " / D " + mode.record.draw + ")";
     }
 
     var elName = document.getElementById("name");
     var elImage = document.getElementById("image");
-    var elExtra = document.getElementById("extra");
-    var elImageContainer = document.getElementById("imageContainer");
+    var elUsername = document.getElementById("username");
+    var elInfo = document.getElementById("info");
+    var elDetails = document.getElementById("details");
+    var elStats = document.getElementById("stats");
     var elBacklink = document.getElementById("backlink");
-
+  
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get('id');
+    const username = urlParams.get('username');
     const page = urlParams.get('page');
 
     if(page != null) {
       elBacklink.href = "index.html?page=" + page;
     }
 
-    const getItem = async () => {
-      elName.innerHTML = "Loading " + id;
+    const getPlayer = async () => {
+      elName.innerHTML = "Loading " + username;
       elImage.src = "";
-      elExtra.innerHTML = "";
+      elInfo.innerHTML = "";
 
-      const response = await fetch('API_URL' + id);
-      const item = await response.json();
+      const response = await fetch('https://api.chess.com/pub/player/' + username);
+      const player = await response.json();
 
-      elName.innerHTML = capitalizeFirstLetter(item.name);
-      elImage.src = item.image;                            
-      elExtra.innerHTML = item.extra;                      
+      if(player.username == undefined){
+        elName.innerHTML = "Player not found";
+        return;
+      }
+
+      elName.innerHTML = player.name || player.username;
+      elImage.src = player.avatar || "";
+      elUsername.innerHTML = "@" + player.username;
+      elInfo.innerHTML = (player.title || "Untitled") + " | " + player.country.slice(-2);
+
+      elDetails.innerHTML = "Followers: " + player.followers +
+        "<br>Location: " + (player.location || "Not listed") +
+        "<br>Joined: " + new Date(player.joined * 1000).toLocaleDateString() +
+        "<br>Last online: " + new Date(player.last_online * 1000).toLocaleDateString();
+
+      const response2 = await fetch('https://api.chess.com/pub/player/' + username + '/stats');
+      const stats = await response2.json();
+
+      elStats.innerHTML = "<b>Rapid:</b> " + getMode(stats.chess_rapid) +
+        "<br><b>Blitz:</b> " + getMode(stats.chess_blitz) +
+        "<br><b>Bullet:</b> " + getMode(stats.chess_bullet) +
+        "<br><b>Daily:</b> " + getMode(stats.chess_daily) +
+
+        "<br><b>FIDE:</b> " + (stats.fide || "None");
     }
 
-    if(id != null){
-      getItem();
+    if(username != null){
+      getPlayer();
     }
   </script>
 </body>
