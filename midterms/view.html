@@ -20,122 +20,132 @@
   </div>
 
   <div class="container mt-5 pt-5">
-    <div class="row">
-      <div class="col">
-        <a href="index.html" id="backlink">
-          <div class="btn btn-outline-secondary">Back to list</div>
-        </a>
-      </div>
+    <div class="input-group">
+      <input type="text" class="form-control" id="search" placeholder="Search a Grandmaster's username" onkeydown="if(event.key == 'Enter') searchPlayer()">
+      <button class="btn btn-dark" onclick="searchPlayer()">Search</button>
     </div>
-  </div> 
+  </div>
 
-  <div class="container mt-3 mb-5">
-    <div class="row">
-      <div class="col-12 col-lg-8 mx-auto">
-        <div class="card shadow rounded-5 overflow-hidden text-center">
+  <div class="container mt-3">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" onclick="prev()">Previous</a></li>
+        <li class="page-item"><a class="page-link" id="currentpage">1</a></li>
+        <li class="page-item"><a class="page-link" onclick="next()">Next</a></li>
+      </ul>
+    </nav>
+  </div>
 
-          <div style="height: 110px; background-color: #769656;"></div>
+  <div class="container">
+    <div class="row" id="parent">
 
-          <div id="imageContainer" class="mx-auto rounded-circle bg-white border border-4 border-white shadow overflow-hidden" style="width: 140px; height: 140px; margin-top: -70px;">
-            <img src="" style="width: 100%;" id="image">
-          </div>
-
-          <div class="p-4">
-            <div class="h2 mt-2" id="name">
-              <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-
-            <div class="text-secondary mb-3" id="username"></div>
-
-            <div class="mb-4">
-              <span class="rounded-pill px-4 py-1 bg-warning" id="title"></span>
-              <span class="rounded-pill px-4 py-1 bg-dark text-white" id="country"></span>
-            </div>
-
-            <div class="row" id="details"></div>
-
-            <hr class="my-4">
-            <div class="h5 mb-3">Ratings</div>
-
-            <div class="row" id="stats"></div>
-          </div>
-
-        </div>
-      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
+
   <script>
-    function box(label, value, note) {
-      return `<div class="col-6 col-md-3 mb-3"><div class="rounded-4 p-3 h-100" style="background-color: #eeeed2;"><div class="text-secondary small">` + label + `</div><div class="h5 my-1">` + value + `</div><div class="text-secondary small">` + note + `</div></div></div>`;
-    }
+    // element initializations
+    var elCurrentPage = document.getElementById("currentpage");
+    var elParent = document.getElementById("parent");
+    var elSearch = document.getElementById("search");
 
-    function boxMode(label, mode) {
-      if (!mode) return box(label, "-", "Not played");
-      return box(label, mode.last.rating, "W " + mode.record.win + " / L " + mode.record.loss + " / D " + mode.record.draw);
-    }
-
-    var elName = document.getElementById("name");
-    var elImage = document.getElementById("image");
-    var elUsername = document.getElementById("username");
-    var elTitle = document.getElementById("title");
-    var elCountry = document.getElementById("country");
-    var elDetails = document.getElementById("details");
-    var elStats = document.getElementById("stats");
-    var elBacklink = document.getElementById("backlink");
-  
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const username = urlParams.get('username');
-    const page = urlParams.get('page');
-
-    if(page != null) {
-      elBacklink.href = "index.html?page=" + page;
+    var page = urlParams.get('page');
+    if(page == null){
+      page = 1;
+    } else {
+      page = parseInt(page);
     }
 
-    const getPlayer = async () => {
-      elName.innerHTML = "Loading " + username;
-      elImage.src = "";
-      elTitle.innerHTML = "";
-      elCountry.innerHTML = "";
+    //pagination variables
+    var allPlayers = [];
+    var players = [];
+    var lastItem = 0;
+    var perPage = 20;
+    var finalPage = 1;
 
-      const response = await fetch('https://api.chess.com/pub/player/' + username);
-      const player = await response.json();
+    const getPlayers = async () => {
+      const response = await fetch('https://api.chess.com/pub/titled/GM');
+      const data = await response.json();
 
-      if(player.username == undefined){
-        elName.innerHTML = "Player not found";
+      allPlayers = data.players;
+      players = allPlayers;
+      lastItem = players.length;
+      finalPage = Math.ceil(lastItem / perPage);
+
+      getItems();
+    }
+
+    const getItems = async () => {
+      elParent.innerHTML = '';
+      elCurrentPage.innerHTML = page;
+
+      if(lastItem == 0){
+        elParent.innerHTML = `<div class="col-12 text-center text-secondary h5 mt-4">No grandmasters found</div>`;
         return;
       }
 
-      elName.innerHTML = player.name || player.username;
-      elImage.src = player.avatar || "";
-      elUsername.innerHTML = "@" + player.username;
-      elTitle.innerHTML = player.title || "Untitled";
-      elCountry.innerHTML = player.country.slice(-2);
+      for(var i = (page - 1) * perPage; i < page * perPage && i < lastItem; i++){
 
-      elDetails.innerHTML = box("Followers", player.followers, "") +
-        box("Location", player.location || "Not listed", "") +
-        box("Joined", new Date(player.joined * 1000).toLocaleDateString(), "") +
-        box("Last online", new Date(player.last_online * 1000).toLocaleDateString(), "");
+        const response = await fetch('https://api.chess.com/pub/player/' + players[i]);
+        const player = await response.json();
 
-      const response2 = await fetch('https://api.chess.com/pub/player/' + username + '/stats');
-      const stats = await response2.json();
+        var username = players[i];
+        var name = player.name;
+        var country = player.country.slice(-2);
 
-      elStats.innerHTML = boxMode("Rapid", stats.chess_rapid) +
-        boxMode("Blitz", stats.chess_blitz) +
-        boxMode("Bullet", stats.chess_bullet) +
-        boxMode("Daily", stats.chess_daily) +
-        box("FIDE", stats.fide || "-", "");
+        if(name == undefined){
+          name = "No name listed";
+        }
+
+        elParent.innerHTML += `
+          <div class="col-12">
+            <div class="card shadow-sm p-3 d-flex flex-row align-items-center my-3">
+              <div class="rounded-pill px-3 bg-light">`+country+`</div>
+              <a style="text-decoration: none" class="text-body" href="view.html?username=`+username+`&page=`+page+`">
+                <div class="h4 mx-4 my-0">`+name+`</div>
+              </a>
+              <div class="text-secondary">@`+username+`</div>
+            </div>
+          </div>
+        `;
+      }
     }
 
-    if(username != null){
-      getPlayer();
+    //search function
+    function searchPlayer(){
+      var text = elSearch.value.trim().toLowerCase();
+
+      players = allPlayers.filter(p => p.startsWith(text));
+
+      lastItem = players.length;
+      finalPage = Math.ceil(lastItem / perPage) || 1;
+      page = 1;
+      getItems();
     }
+
+    //pagination functions
+    function prev(){
+      page -= 1;
+      if(page == 0){
+        page = finalPage;
+      }
+      getItems();
+    }
+
+    function next(){
+      page += 1;
+      if(page > finalPage){
+        page = 1;
+      }
+      getItems();
+    }
+
+    getPlayers();
   </script>
 </body>
 
